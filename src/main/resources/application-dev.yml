@@ -1,0 +1,106 @@
+server:
+  port: 8080
+
+springdoc:
+  swagger-ui:
+    path: /api/accusation/swagger-ui.html
+    operationsSorter: method
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://${DB_HOST}:3306/accusation_db?serverTimezone=Asia/Seoul
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      auto-commit: false
+      connection-test-query: SELECT 1
+      minimum-idle: 5
+      maximum-pool-size: 10
+      pool-name: mungta_accusation_pool
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        temp:
+          use_jdbc_metadata_defaults: false
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  thymeleaf:
+    prefix: classpath:/static/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    check-template-location: true
+  kafka:
+    bootstrap-servers:
+      - ${KAFKA_BROKER}
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: ${KAFKA_BROKER}
+          autoCreateTopics: true
+        bindings:
+          producer-out-0:
+            producer:
+              configuration:
+                key:
+                  serializer: org.apache.kafka.common.serialization.StringSerializer
+          consumer-in-0:
+            consumer:
+              configuration:
+                key:
+                  deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      bindings:
+        producer-out-0:
+          destination: accusation-topic
+          contentType: application/json
+        consumer-in-0:
+          destination: user-topic
+
+management:
+  endpoint:
+    health:
+      probes:
+        enabled: true
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+
+api:
+  url:
+    user: http://user:8080/api/user
+    party: http://partymanagement:8080/api/party-management/partyInfos/carpool-summary-info
+
+logging:
+  config: classpath:logging/logback-mungta-dev.xml
+  level:
+    org:
+      hibernate:
+        SQL: info
+        type:
+          descriptor:
+            sql: info
