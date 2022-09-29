@@ -23,3 +23,15 @@
 ### SAGA 패턴
 
 ![saga](./img/saga.png)
+
+
+
+### 정적 분석
+
+![sonarqube](./img/sonarqube.png)
+
+
+
+### Jenkins
+
+![jenkins](./img/jenkins.png)
