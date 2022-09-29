@@ -3,4 +3,23 @@
 ### Domain Modeling
 
 ![domain_modeling](./img/domain_modeling.png)
- 
+
+
+
+### Swagger
+
+- http://localhost:8089/api/accusation/swagger-ui.html
+
+![swagger](./img/swagger.png)
+
+
+
+### Event 통신
+
+![event](./img/event.png)
+
+
+
+### SAGA 패턴
+
+![saga](./img/saga.png)
