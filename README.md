@@ -22,7 +22,16 @@
 
 ### SAGA 패턴
 
+- 패널티 카운팅 실패시 "PenaltyFailed" Event를 받아 신고 처리한 상태를 롤백.
+
 ![saga](./img/saga.png)
+
+### 신고 처리시 Email 전송
+
+- 유저 서비스에서 패널티 카운팅 성공했다고 보낸 "PenaltySucceed" Event를 받으면 비동기로 Email 전송.
+- Email Format은 Thymeleaf 사용.
+
+![email](./img/email.png)
 
 
 
@@ -42,3 +51,14 @@
 
 ![infra](./img/infra.png)
 
+
+
+### Kiali
+
+![kiali](./img/kiali.png)
+
+
+
+### Zipkin
+
+![zipkin](./img/zipkin.png)
